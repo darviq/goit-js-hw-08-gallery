@@ -16,7 +16,7 @@ const createElementString = ({preview, original, description, index}) => {
   </a></li>`;
 };
 
-const fragment = imageArr.map((img) => createElementString(img)).join('');
+const fragment = imageArr.reduce((acc, image) => acc + createElementString(image), '');
 refs.gallery.insertAdjacentHTML('beforeend', fragment);
 
 function openBigImage(event){
