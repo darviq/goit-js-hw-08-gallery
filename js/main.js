@@ -26,9 +26,7 @@ function openBigImage(event){
 
     refs.closeModalBtn.addEventListener('click', closeBigImage);
     refs.lightboxOverlay.addEventListener('click', closeBigImage);
-    addEventListener('keydown', checkEscapeBtn);
-    addEventListener('keydown', checkRightBtn);
-    addEventListener('keydown', checkLeftBtn);
+    addEventListener('keydown', checkBtn);
 
     const image = event.target;
     refs.lightboxImage.src = image.dataset.source;
@@ -41,18 +39,15 @@ function closeBigImage(){
     
     refs.closeModalBtn.removeEventListener('click', closeBigImage);
     refs.lightboxOverlay.removeEventListener('click', closeBigImage);
-    removeEventListener('keydown', checkEscapeBtn);
-    removeEventListener('keydown', checkRightBtn);
-    removeEventListener('keydown', checkLeftBtn);
+    removeEventListener('keydown', checkBtn);
 
     refs.lightboxImage.src = '';
     refs.lightboxImage.alt = '';
     refs.lightboxImage.dataset.index = '';
 }
 
-function checkEscapeBtn(event){
-    if (event.code !== 'Escape') return;
-    closeBigImage();
+function checkBtn(event){
+    event.code === 'Escape' ? closeBigImage() : event.code === 'ArrowRight' ? nextImage() : event.code === 'ArrowLeft' && prevImage();
 }
 
 function setNewImage(){
@@ -73,16 +68,6 @@ function prevImage(){
     if (Number(image.index) - 1 === -1) image.index = refs.gallery.childElementCount - 1;
     else image.index = Number(image.index) - 1;
     setNewImage();
-}
-
-function checkRightBtn(event){
-    if (event.code !== 'ArrowRight') return;
-    nextImage();
-}
-
-function checkLeftBtn(event){
-    if (event.code !== 'ArrowLeft') return;
-    prevImage();
 }
 
 refs.gallery.addEventListener('click', openBigImage);
